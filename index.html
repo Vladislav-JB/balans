@@ -93,6 +93,10 @@
     .stage { margin: 28px 0 0; background: var(--grad), var(--bg); background-repeat: no-repeat; border: 1px solid var(--line); border-radius: 36px; box-shadow: var(--shadow); flex: 0 0 auto; overflow: clip; }
   }
   .demo-bar { background: var(--demobg); color: var(--demoink); text-align: center; font-size: 12.5px; padding: 6px 12px; letter-spacing: .02em; }
+  .tg-strip { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 12px; background: var(--food-soft); color: var(--accent); font-weight: 700; font-size: 14.5px; text-decoration: none; border-bottom: 1px solid var(--line); }
+  .tg-strip svg { width: 18px; height: 18px; }
+  .tg-strip:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .tg-strip[hidden] { display: none; }
   .top { display: flex; align-items: center; gap: 10px; padding: 18px 18px 4px; }
   .logo { font-weight: 800; font-size: 21px; letter-spacing: -.02em; flex: 1; white-space: nowrap; }
   html[data-theme="dark"] .logo { font-size: 13px; font-weight: 600; letter-spacing: .34em; text-transform: uppercase; color: var(--gold); }
@@ -310,6 +314,7 @@
 <body>
 <div class="stage" id="stage">
   <div class="demo-bar">ДЕМО · данные условные, напоминания не отправляются</div>
+  <a class="tg-strip" id="tgStrip" href="https://t.me/balans_demo_bot" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.5 3.3 2.7 10.6c-1 .4-1 1.1-.2 1.3l4.8 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8L22.9 4.7c.3-1.2-.4-1.8-1.4-1.4zM8.4 13l9.5-6c.4-.3.8-.1.5.2l-7.9 7.2-.3 3.3L8.4 13z"/></svg>Протестировать в Telegram</a>
   <header class="top">
     <div class="logo" id="logo">Баланс</div>
     <button class="iconc" id="themeBtn" aria-label="Сменить тему"></button>
@@ -813,6 +818,7 @@
   applyTheme(theme(), false);
 
   /* Telegram Mini App: если открыто внутри Telegram – раскрыть на весь экран */
+  try { if (/tgWebApp/.test(location.hash + location.search)) $('#tgStrip').hidden = true; } catch (e) {}
   try {
     if (window.Telegram && window.Telegram.WebApp) { window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); }
   } catch (e) {}
