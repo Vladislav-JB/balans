@@ -257,9 +257,14 @@
   .foot__made img.l, html[data-theme="dark"] .foot__made img.d { display: none; }
   html[data-theme="dark"] .foot__made img.l { display: inline-block; }
   /* кнопки в шапке */
-  .iconc { width: 40px; height: 40px; display: grid; place-items: center; flex: none; color: var(--soft); border-radius: 50%; transition: color .2s, background .2s; }
-  .iconc:hover { color: var(--ink); background: var(--track); }
-  .iconc svg { width: 21px; height: 21px; }
+  .tsw { position: relative; width: 66px; height: 34px; flex: none; border-radius: 99px; background: var(--track); border: 1px solid var(--line); }
+  .tsw__i { position: absolute; top: 50%; width: 16px; height: 16px; margin-top: -8px; display: grid; place-items: center; color: var(--soft); }
+  .tsw__i:first-child { left: 9px; }
+  .tsw__i:nth-child(2) { right: 9px; }
+  .tsw svg { width: 16px; height: 16px; }
+  .tsw__t { position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; transition: transform .28s cubic-bezier(.2, .8, .2, 1), background .28s; }
+  html[data-theme="dark"] .tsw__t { transform: translateX(32px); background: var(--gold); color: #1c1a10; }
+  html[data-theme="light"] .tsw__t { background: #fff; color: #e08a1e; box-shadow: 0 2px 8px rgba(110, 90, 190, .28); }
   /* главная: общая часть */
   .eatline { text-align: center; color: var(--soft); font-size: 13.5px; margin: 10px 0 0; }
   .eatline b { color: var(--ink); }
@@ -317,7 +322,7 @@
   <a class="tg-strip" id="tgStrip" href="https://t.me/balans_demo_bot" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.5 3.3 2.7 10.6c-1 .4-1 1.1-.2 1.3l4.8 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8L22.9 4.7c.3-1.2-.4-1.8-1.4-1.4zM8.4 13l9.5-6c.4-.3.8-.1.5.2l-7.9 7.2-.3 3.3L8.4 13z"/></svg>Протестировать в Telegram</a>
   <header class="top">
     <div class="logo" id="logo">Баланс</div>
-    <button class="iconc" id="themeBtn" aria-label="Сменить тему"></button>
+    <button class="tsw" id="themeBtn" role="switch" aria-label="Тёмная тема" title="Светлая и тёмная тема"><span class="tsw__i" aria-hidden="true"></span><span class="tsw__i" aria-hidden="true"></span><span class="tsw__t" aria-hidden="true"></span></button>
     <button class="avatar" id="avatar" data-go="profile" aria-label="Профиль"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.600-6 8-6s8 2 8 6"/></svg></button>
   </header>
   <main id="view" class="view"></main>
@@ -809,8 +814,9 @@
     var root = document.documentElement, color = t === 'dark' ? '#0c1210' : '#f3f0fb', btn = $('#themeBtn');
     root.setAttribute('data-theme', t);
     if (persist) { try { localStorage.setItem('balans.theme', t); } catch (e) {} }
-    btn.innerHTML = t === 'dark' ? ICON.sun : ICON.moon;
-    btn.setAttribute('aria-label', t === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему');
+    var parts = btn.children;
+    parts[0].innerHTML = ICON.sun; parts[1].innerHTML = ICON.moon; parts[2].innerHTML = t === 'dark' ? ICON.moon : ICON.sun;
+    btn.setAttribute('aria-checked', t === 'dark');
     $('meta[name="theme-color"]').setAttribute('content', color);
     try { window.Telegram.WebApp.setHeaderColor(color); window.Telegram.WebApp.setBackgroundColor(color); } catch (e) {}
   }
